@@ -1,3 +1,5 @@
+Flutter Social Share plugin for sharing file to media with multiple (More option are in plugin not in readme use) for private purpose only so it's code is without error checking because i know which parameter are required and implemented for android use only because i am not releasing my app for iOS so not implement ios code.
+
 # social_share
 
 Wide variety of sharing options you'll need to share directly to certain popular apps or just share with default native share.
