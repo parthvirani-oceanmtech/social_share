@@ -355,7 +355,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 //                val activity = activity.get()!!
                 val bitmapUri =
                     FileProvider.getUriForFile(activeContext!!,
-                        "com.mpitspace.simple.bridal.arabic.mehndi.design.style.social.share.fileprovider", imgFile)
+                        activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", imgFile)
                 val content = if (bitmapUri != null) {
                     val photo = SharePhoto.Builder().setCaption("$message #Postou").setImageUrl(bitmapUri).build()
                     SharePhotoContent.Builder().addPhoto(photo).build()
@@ -383,7 +383,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 //                    val activity = activity.get()!!
                     val bitmapUri =
                         FileProvider.getUriForFile(activeContext!!,
-                            "com.mpitspace.simple.bridal.arabic.mehndi.design.style.social.share.fileprovider", imgFile)
+                            activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", imgFile)
                     val storiesIntent = Intent("com.instagram.share.ADD_TO_STORY")
                     storiesIntent.setDataAndType(bitmapUri,
                         activity?.contentResolver?.getType(bitmapUri))
@@ -412,7 +412,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
                     val bitmapUri =
                         FileProvider.getUriForFile(activeContext!!,
-                            "com.mpitspace.simple.bridal.arabic.mehndi.design.style.social.share.fileprovider", imgFile)
+                            activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", imgFile)
 
                     val intent = Intent("com.facebook.stories.ADD_TO_STORY")
                     intent.type = "image/*"
@@ -445,7 +445,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 if (imgFile.exists()) {
                      val bitmapUri =
                         FileProvider.getUriForFile(activeContext!!,
-                            "com.mpitspace.simple.bridal.arabic.mehndi.design.style.social.share.fileprovider", imgFile)
+                            activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", imgFile)
                     val feedIntent = Intent(Intent.ACTION_SEND)
                     feedIntent.type = "image/*"
                     feedIntent.putExtra(Intent.EXTRA_TEXT, msg)
@@ -478,7 +478,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
                     val bitmapUri =
                         FileProvider.getUriForFile(activeContext!!,
-                            "com.mpitspace.simple.bridal.arabic.mehndi.design.style.social.share.fileprovider", imgFile)
+                            activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", imgFile)
                     whatsappIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     whatsappIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
                     val cr = activity?.contentResolver
@@ -518,7 +518,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 if (imgFile.exists()) {
                     val bitmapUri =
                         FileProvider.getUriForFile(activeContext!!,
-                            "com.mpitspace.simple.bridal.arabic.mehndi.design.style.social.share.fileprovider", imgFile)
+                            activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", imgFile)
                     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     intent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
                     val cr = activity?.contentResolver
