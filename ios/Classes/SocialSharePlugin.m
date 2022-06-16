@@ -5,6 +5,7 @@
 
 #import "SocialSharePlugin.h"
 #include <objc/runtime.h>
+#import <Photos/Photos.h>
 
 @implementation SocialSharePlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
@@ -14,7 +15,68 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-    if ([@"shareInstagramStory" isEqualToString:call.method]) {
+    if([@"shareStoryOnInstagram" isEqualToString:call.method]){
+         //Sharing story on instagram
+        NSString *stickerImage = call.arguments[@"url"];
+        
+        //getting image from file
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        BOOL isFileExist = [fileManager fileExistsAtPath: stickerImage];
+        UIImage *imgShare;
+        if (isFileExist) {
+          //if image exists
+          imgShare = [[UIImage alloc] initWithContentsOfFile:stickerImage];
+        }
+        //url Scheme for instagram story
+        NSURL *urlScheme = [NSURL URLWithString:@"instagram-stories://share"];
+        //adding data to send to instagram story
+        if ([[UIApplication sharedApplication] canOpenURL:urlScheme]) {
+           //if instagram is installed and the url can be opened
+          
+              //If you dont have a background image
+             // Assign background image asset and attribution link URL to pasteboard
+             NSArray *pasteboardItems = @[@{@"com.instagram.sharedSticker.stickerImage" : imgShare}];
+             if (@available(iOS 10.0, *)) {
+             NSDictionary *pasteboardOptions = @{UIPasteboardOptionExpirationDate : [[NSDate date] dateByAddingTimeInterval:60 * 5]};
+             // This call is iOS 10+, can use 'setItems' depending on what versions you support
+             [[UIPasteboard generalPasteboard] setItems:pasteboardItems options:pasteboardOptions];
+                 
+               [[UIApplication sharedApplication] openURL:urlScheme options:@{} completionHandler:nil];
+                 //if success
+                 result(@"sharing");
+           } else {
+               result(@"this only supports iOS 10+");
+           }
+           
+       
+       } else {
+           result(@"not supported or no facebook installed");
+       }
+    } else if([@"shareOnFeedInstagram" isEqualToString:call.method]){
+         //Sharing story on instagram
+        NSString *url = call.arguments[@"url"];
+        NSString *message = call.arguments[@"message"];
+        NSURL *urlScheme = [NSURL URLWithString:@"instagram://app"];
+        if ([[UIApplication sharedApplication] canOpenURL:urlScheme]) {
+            UIImage *imageToUse = [UIImage imageWithContentsOfFile:url];
+            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                PHAssetChangeRequest *changeRequest = [PHAssetChangeRequest creationRequestForAssetFromImage:imageToUse];
+                NSString *assetPlaceholder = changeRequest.placeholderForCreatedAsset.localIdentifier;
+                NSString *shareURL = [NSString stringWithFormat:@"instagram://library?LocalIdentifier=%@", assetPlaceholder];
+                NSURL *instagramLink = [NSURL URLWithString:shareURL];
+                [[UIApplication sharedApplication] openURL:instagramLink options:@{} completionHandler:nil];
+            } completionHandler:^(BOOL success, NSError *error) {
+                if (success) {
+                    result(@"sharing");
+                }
+                else {
+                    result(@"write image error");
+                }
+            }];
+        } else {
+            result(@"not supported or no instagram installed");
+        }
+    }else if ([@"shareInstagramStory" isEqualToString:call.method]) {
         //Sharing story on instagram
         NSString *stickerImage = call.arguments[@"stickerImage"];
         NSString *backgroundTopColor = call.arguments[@"backgroundTopColor"];

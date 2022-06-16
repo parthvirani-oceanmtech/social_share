@@ -109,7 +109,8 @@ class SocialShare {
     return response;
   }
 
-  static Future<String?> shareTwitter(String captionText, {List<String>? hashtags, String? url, String? trailingText}) async {
+  static Future<String?> shareTwitter(String captionText,
+      {List<String>? hashtags, String? url, String? trailingText}) async {
     Map<String, dynamic> args;
     String modifiedUrl;
     if (Platform.isAndroid) {
@@ -122,9 +123,17 @@ class SocialShare {
       hashtags.forEach((f) {
         tags += ("%23" + f.toString() + " ").toString();
       });
-      args = <String, dynamic>{"captionText": captionText + "\n" + tags.toString(), "url": modifiedUrl, "trailingText": trailingText ?? ''};
+      args = <String, dynamic>{
+        "captionText": captionText + "\n" + tags.toString(),
+        "url": modifiedUrl,
+        "trailingText": trailingText ?? ''
+      };
     } else {
-      args = <String, dynamic>{"captionText": captionText + " ", "url": modifiedUrl, "trailingText": trailingText ?? ''};
+      args = <String, dynamic>{
+        "captionText": captionText + " ",
+        "url": modifiedUrl,
+        "trailingText": trailingText ?? ''
+      };
     }
     final String? version = await _channel.invokeMethod('shareTwitter', args);
     return version;
@@ -138,7 +147,11 @@ class SocialShare {
           "message": message,
         };
       } else {
-        args = <String, dynamic>{"message": message + " ", "urlLink": Uri.parse(url).toString(), "trailingText": trailingText};
+        args = <String, dynamic>{
+          "message": message + " ",
+          "urlLink": Uri.parse(url).toString(),
+          "trailingText": trailingText
+        };
       }
     } else if (Platform.isAndroid) {
       args = <String, dynamic>{
@@ -218,8 +231,6 @@ class SocialShare {
     }
     return result;
   }
-
-
 
   static Future<String?> shareOnFeedFacebook({
     required String url,
