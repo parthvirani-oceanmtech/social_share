@@ -64,6 +64,25 @@ class _MyAppState extends State<MyApp> {
                 ),
                 RaisedButton(
                   onPressed: () async {
+                    await screenshotController.capture().then((image) async {
+                      final directory = await getApplicationDocumentsDirectory();
+                      final file = await File('${directory.path}/temp.png').create();
+                      if (image != null) {
+                        await file.writeAsBytes(image);
+
+                        SocialShare.shareOnFeedInstagram(
+                          url: file.path,
+                          message: '',
+                        ).then((data) {
+                          print(data);
+                        });
+                      }
+                    });
+                  },
+                  child: Text("Share On Instagram Feed"),
+                ),
+                RaisedButton(
+                  onPressed: () async {
                     final file = await ImagePicker().pickImage(
                       source: ImageSource.gallery,
                     );
