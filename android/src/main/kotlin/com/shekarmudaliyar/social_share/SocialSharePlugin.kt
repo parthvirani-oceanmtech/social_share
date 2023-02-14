@@ -70,7 +70,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             )
 
             val intent = Intent("com.instagram.share.ADD_TO_STORY")
-            intent.type = "image/*"
+            intent.type = "*/*"
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("interactive_asset_uri", stickerImageFile)
@@ -82,7 +82,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share",
                     backfile
                 )
-                intent.setDataAndType(backgroundImageFile, "image/*")
+                intent.setDataAndType(backgroundImageFile, "*/*")
             }
             intent.putExtra("content_url", attributionURL)
             intent.putExtra("top_background_color", backgroundTopColor)
@@ -115,7 +115,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 file
             )
             val intent = Intent("com.facebook.stories.ADD_TO_STORY")
-            intent.type = "image/*"
+            intent.type = "*/*"
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.putExtra("com.facebook.platform.extra.APPLICATION_ID", appId)
@@ -151,7 +151,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                     activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share",
                     imagefile
                 )
-                intent.type = "image/*"
+                intent.type = "*/*"
                 intent.putExtra(Intent.EXTRA_STREAM, imageFileUri)
             } else {
                 intent.type = "text/plain";
@@ -415,7 +415,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                             activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", imgFile)
 
                     val intent = Intent("com.facebook.stories.ADD_TO_STORY")
-                    intent.type = "image/*"
+                    intent.type = "*/*"
                     intent.putExtra("com.facebook.platform.extra.APPLICATION_ID", facebookId)
                     intent.putExtra("interactive_asset_uri", bitmapUri)
                     intent.putExtra("top_background_color", "#26242e")
@@ -447,7 +447,7 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                         FileProvider.getUriForFile(activeContext!!,
                             activeContext!!.applicationContext.packageName + ".com.shekarmudaliyar.social_share", imgFile)
                     val feedIntent = Intent(Intent.ACTION_SEND)
-                    feedIntent.type = "image/*"
+                    feedIntent.type = "*/*"
                     feedIntent.putExtra(Intent.EXTRA_TEXT, msg)
                     feedIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     feedIntent.putExtra(Intent.EXTRA_STREAM, bitmapUri)
